@@ -1,0 +1,10 @@
+[book]
+authors = ["Florian Fromm <flrn.frmm@gmail.com>", "Sebastian Heusser <huhn@einfachiota.de>"]
+language = "en"
+multilingual = false
+src = "./docs"
+title = "SOLID"
+
+[build]
+build-dir = "book"
+create-missing = false
