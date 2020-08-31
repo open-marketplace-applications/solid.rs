@@ -1,1 +1,1 @@
-# A SOLID implementatio in Rust
+# A SOLID implementation in Rust
