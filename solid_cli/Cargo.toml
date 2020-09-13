@@ -9,4 +9,7 @@ name = "solid-rs"
 path = "src/main.rs"
 
 [dependencies]
+tokio = { version = "0.2", features = ["full"] }
+solid_server = { path = "../solid_server" }
+
 clap = "2.33.3"
