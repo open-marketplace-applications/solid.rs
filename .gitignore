@@ -12,3 +12,6 @@ Cargo.lock
 
 # remove book
 book
+
+# solid file system
+solid-fs

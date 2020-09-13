@@ -1,5 +1,4 @@
 use clap::ArgMatches;
-use tokio::runtime::Runtime;
 
 use solid_server::{start_server, configuration::Configuration};
 
@@ -10,8 +9,8 @@ pub fn start(optional_matches: Option<&ArgMatches>) {
         apply_cli_arguments(&mut configuration, matches);
     }
 
-    match Runtime::new() {
-        Ok(mut runtime) => runtime.block_on(start_server(&configuration)),
+    match start_server(configuration) {
+        Ok(_) => (),
         Err(error) => println!("Error: {}", error)
     }
 }
