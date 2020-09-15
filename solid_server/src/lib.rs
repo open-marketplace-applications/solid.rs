@@ -8,7 +8,7 @@ use hyper::service::{make_service_fn, service_fn};
 use configuration::Configuration;
 
 pub async fn start_server(configuration: &Configuration) {
-    let addr = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), configuration.port);
+    let addr = SocketAddr::new(configuration.server.bind_address, configuration.server.port);
 
     let solid_svc = make_service_fn(|_| async { Ok::<_,hyper::Error>(service_fn(serve_solid)) });
 

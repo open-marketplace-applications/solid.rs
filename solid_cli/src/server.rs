@@ -29,7 +29,7 @@ fn apply_cli_arguments(configuration: &mut Configuration, matches: &ArgMatches) 
     // Cli arguments override default & config file arguments
     if let Some(val) = matches.value_of("port") {
         match val.parse::<u16>() {
-            Ok(port) => configuration.port = port,
+            Ok(port) => configuration.server.port = port,
             Err(error) => println!("Error: {}", error)
         }
     }
