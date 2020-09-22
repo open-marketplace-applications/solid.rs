@@ -1,53 +1,97 @@
 pub mod configuration;
 
-use std::convert::Infallible;
-use std::net::{SocketAddr, IpAddr, Ipv4Addr};
-use hyper::{Body, Request, Response, Server, Method, StatusCode};
-use hyper::service::{make_service_fn, service_fn};
+use std::net::SocketAddr;
 
-use configuration::Configuration;
+use actix_web::{middleware, web, App, HttpRequest, HttpServer, HttpResponse, delete, get, head, options, patch, post, put};
 
-pub async fn start_server(configuration: &Configuration) {
+use solid_storage;
+use crate::configuration::Configuration;
+
+#[actix_web::main]
+pub async fn start_server(configuration: Configuration) -> std::io::Result<()> {
     let addr = SocketAddr::new(configuration.server.bind_address, configuration.server.port);
 
-    let solid_svc = make_service_fn(|_| async { Ok::<_,hyper::Error>(service_fn(serve_solid)) });
+    println!("Runnning Solid Server on http://{}", addr);
+    std::env::set_var("RUST_LOG", "actix_web=info");
+    env_logger::init();
+    solid_storage::init();
 
-    let server = Server::bind(&addr).serve(solid_svc);
-
-    if let Err(e) = server.await {
-        eprintln!("server error: {}", e);
-    }
+    HttpServer::new(|| {
+        App::new()
+            .wrap(middleware::Logger::default())
+            .service(index)
+            .service(handle_get)
+            .service(handle_delete)
+            .service(handle_get)
+            .service(handle_head)
+            .service(handle_options)
+            .service(handle_patch)
+            .service(handle_post)
+            .service(handle_put)
+    })
+        .bind(&addr)?
+        .run()
+        .await
 }
 
-async fn serve_solid(req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let mut response = Response::new(Body::empty());
+#[get("/")]
+async fn index() -> HttpResponse {
+    HttpResponse::Ok().body("Welcome to Solid.rs!")
+}
 
-    match req.method() {
-        &Method::DELETE => {
-            *response.body_mut() = Body::from("Received DELETE request");
-        },
-        &Method::GET => {
-            *response.body_mut() = Body::from("Received GET request");
-        },
-        &Method::HEAD => {
-            *response.body_mut() = Body::from("Received HEAD request");
-        },
-        &Method::OPTIONS => {
-            *response.body_mut() = Body::from("Received OPTIONS request");
-        },
-        &Method::PATCH => {
-            *response.body_mut() = Body::from("Received PATCH request");
-        },
-        &Method::POST => {
-            *response.body_mut() = Body::from("Received POST request");
-        },
-        &Method::PUT => {
-            *response.body_mut() = Body::from("Received PUT request");
-        },
-        _ => {
-            *response.status_mut() = StatusCode::NOT_FOUND;
-        },
-    };
+#[delete("/*")]
+async fn handle_delete(req: HttpRequest) -> HttpResponse {
+    // TODO: Implement behaviour for that method
+    let path = req.path();
+    HttpResponse::Ok().body(format!("Received delete request for {}", path))
+}
 
-    Ok(response)
+#[get("/*")]
+async fn handle_get(req: HttpRequest) -> HttpResponse {
+    // TODO: Handle file not found
+    // current behavior: returns empty body
+    let path = req.path();
+    HttpResponse::Ok().body(solid_storage::read_file(path).unwrap())
+}
+
+#[head("/*")]
+async fn handle_head(req: HttpRequest) -> HttpResponse {
+    // TODO: Implement behaviour for that method
+    let path = req.path();
+    HttpResponse::Ok().body(format!("Received head request for {}", path))
+}
+
+#[options("/*")]
+async fn handle_options(req: HttpRequest) -> HttpResponse {
+    // TODO: Implement behaviour for that method
+    let path = req.path();
+    HttpResponse::Ok().body(format!("Received options request for {}", path))
+}
+
+#[patch("/*")]
+async fn handle_patch(req: HttpRequest) -> HttpResponse {
+    // TODO: Implement behaviour for that method
+    let path = req.path();
+    HttpResponse::Ok().body(format!("Received patch request for {}", path))
+}
+
+#[post("/*")]
+async fn handle_post(req: HttpRequest) -> HttpResponse {
+    // TODO: Implement behaviour for that method
+    let path = req.path();
+    HttpResponse::Ok().body(format!("Received put request for {}", path))
+}
+
+#[put("/*")]
+async fn handle_put(req: HttpRequest, bytes: web::Bytes) -> HttpResponse {
+    match String::from_utf8(bytes.to_vec()) {
+        Ok(content) => {
+            match solid_storage::write_file(req.path(), content.as_str()) {
+                Ok(()) => HttpResponse::Ok().body("success"),
+                Err(error) => HttpResponse::InternalServerError().into()
+            }
+        },
+        Err(_) => HttpResponse::InternalServerError().into()
+    }
+ 
 }

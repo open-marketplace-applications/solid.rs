@@ -3,5 +3,6 @@ members = [
     "solid_core",
     "solid_ldp",
     "solid_server",
-    "solid_cli"
+    "solid_cli",
+    "solid_storage"
 ]
