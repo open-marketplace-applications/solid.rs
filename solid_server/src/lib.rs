@@ -5,6 +5,7 @@ use std::net::SocketAddr;
 use actix_web::{middleware, web, App, HttpRequest, HttpServer, HttpResponse, delete, get, head, options, patch, post, put};
 
 use solid_storage;
+use solid_auth;
 use crate::configuration::Configuration;
 
 #[actix_web::main]
@@ -18,7 +19,9 @@ pub async fn start_server(configuration: Configuration) -> std::io::Result<()> {
 
     HttpServer::new(|| {
         App::new()
-            .wrap(middleware::Logger::default())
+        .wrap(middleware::Logger::default())
+            .service(solid_auth::register)
+            .service(solid_auth::login)
             .service(index)
             .service(handle_get)
             .service(handle_delete)

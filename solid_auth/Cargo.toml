@@ -7,3 +7,6 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+anyhow = "1.0.13"
+actix-web = "3.0.2"
+identity_core = { git = "https://github.com/iotaledger/identity.rs", branch = "dev" }

@@ -1,5 +1,6 @@
 [workspace]
 members = [
+    "solid_auth",
     "solid_core",
     "solid_ldp",
     "solid_server",
