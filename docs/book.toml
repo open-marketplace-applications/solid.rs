@@ -2,7 +2,7 @@
 authors = ["Florian Fromm <flrn.frmm@gmail.com>", "Sebastian Heusser <huhn@einfachiota.de>"]
 language = "en"
 multilingual = false
-src = "./docs"
+src = "./"
 title = "SOLID"
 
 [build]
