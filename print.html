@@ -173,6 +173,33 @@ Authentication and authorization are cobined to one crate <code>auth</code>.</p>
 <li>Server</li>
 <li>Storage</li>
 </ul>
+<h2><a class="header" href="#an-encrypted-data-vault" id="an-encrypted-data-vault">An Encrypted Data Vault</a></h2>
+<blockquote>
+<p>Solid is a Secure Storage Provider for Linked Data</p>
+</blockquote>
+<p>We store a significant amount of sensitive data online, such as personally identifying information (PII), trade secrets, family pictures, and customer information. The data that we store is often not protected in an appropriate manner.</p>
+<h3><a class="header" href="#differences-between-solid-and-ipfs" id="differences-between-solid-and-ipfs">Differences between Solid and IPFS</a></h3>
+<p><strong>Solid</strong></p>
+<ul>
+<li>File and graph store</li>
+<li>Spec requires no encyption</li>
+<li>Extended file metadata is supported</li>
+<li>Read/write protocol: REST (LDP)</li>
+<li>Auth: WebID-OIDC	</li>
+<li>Data locality: Server</li>
+<li>Replication: None</li>
+<li>Access Control: [Web Access Control (WAC)] (https://github.com/solid/web-access-control-spec)</li>
+</ul>
+<p><strong>IPFS</strong></p>
+<ul>
+<li>Content-addressable distributed file store</li>
+<li>Spec requires no encyption</li>
+<li>Extended file metadata is not supported</li>
+<li>Read/write protocol: cli/HTTP</li>
+<li>Data locality: Public nodes</li>
+<li>Replication: <a href="https://discuss.ipfs.io/t/replication-on-ipfs-or-the-backing-up-content-model/372">Peer to peer</a></li>
+<li>Access Control: <a href="https://github.com/ipfs/notes/issues/376">None</a></li>
+</ul>
 <h1><a class="header" href="#glossary" id="glossary">Glossary</a></h1>
 <p><a href="https://www.w3.org/TR/ldp/#terms">This Terminology</a> is based on W3C's Architecture of the World Wide Web [WEBARCH] and Hyper-text Transfer Protocol ([RFC7230], [RFC7231], [RFC7232]).</p>
 <h2><a class="header" href="#link" id="link">Link</a></h2>
