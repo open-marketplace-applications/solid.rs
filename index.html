@@ -93,7 +93,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Readme</a></li><li class="chapter-item expanded "><a href="Glossary.html"><strong aria-hidden="true">2.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="meeting-notes/index.html"><strong aria-hidden="true">3.</strong> Meeting Notes</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html" class="active"><strong aria-hidden="true">1.</strong> Readme</a></li><li class="chapter-item expanded "><a href="Glossary.html"><strong aria-hidden="true">2.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="meeting-notes/index.html"><strong aria-hidden="true">3.</strong> Meeting Notes</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -162,7 +162,7 @@
                         <h1><a class="header" href="#a-solid-implementation-in-rust" id="a-solid-implementation-in-rust">A SOLID implementation in Rust</a></h1>
 <h2><a class="header" href="#architecture" id="architecture">Architecture</a></h2>
 <p>The architecture is based on the description <a href="https://rubenverborgh.github.io/solid-server-architecture/solid-architecture-v1-3-0.pdf">here</a>. 
-Authentication and authorization are cobined to one crate <code>auth</code>.</p>
+Authentication and authorization are cobined to one crate <a href="./auth">auth</a>.</p>
 <ul>
 <li>Auth</li>
 <li>CLI</li>
@@ -171,6 +171,20 @@ Authentication and authorization are cobined to one crate <code>auth</code>.</p>
 <li>Server</li>
 <li>Storage</li>
 </ul>
+<h2><a class="header" href="#how-to-start" id="how-to-start">How to start</a></h2>
+<pre><code class="language-bash">cargo run start
+</code></pre>
+<p>Visit <a href="http://localhost:3000/">http://localhost:3000/</a></p>
+<h2><a class="header" href="#interacting-with-the-server" id="interacting-with-the-server">Interacting with the server</a></h2>
+<p>The server supports low-level interaction via HTTP methods, such as GET, PUT, HEAD, ...</p>
+<p>Below, we provide several examples on how to interact with the server using curl</p>
+<h3><a class="header" href="#put-creating-resources-for-a-given-url" id="put-creating-resources-for-a-given-url"><code>PUT</code>: Creating resources for a given URL</a></h3>
+<p>Create a plain text file:</p>
+<pre><code class="language-bash">$ curl -X PUT -H &quot;Content-Type: text/plain&quot; \
+  -d &quot;abc&quot; \
+  http://localhost:3000/myfile.txt
+</code></pre>
+<p>Visit <a href="http://localhost:3000/myfile.txt">http://localhost:3000/myfile.txt</a></p>
 <h2><a class="header" href="#an-encrypted-data-vault" id="an-encrypted-data-vault">An Encrypted Data Vault</a></h2>
 <blockquote>
 <p>Solid is a Secure Storage Provider for Linked Data</p>
