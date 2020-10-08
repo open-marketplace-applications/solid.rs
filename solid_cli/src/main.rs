@@ -2,11 +2,12 @@ mod initialize;
 mod server;
 
 use clap::{App, Arg};
+use anyhow::{Result, anyhow};
 
 use initialize::initialize_server_configuration;
 use server::start;
 
-fn main() {
+fn main() -> Result<()> {
     let cli = App::new("solid-rs")
         .version("0.1.0")
         .setting(clap::AppSettings::SubcommandRequiredElseHelp)
@@ -17,7 +18,7 @@ fn main() {
     match cli.subcommand() {
         ("init", optional_matches) => initialize_server_configuration(optional_matches),
         ("start", optional_matches) => start(optional_matches), 
-        _   => { }
+        (subcommand, _) => Err(anyhow!("Unknown subcommand `{}`", subcommand))
     }
 }
 

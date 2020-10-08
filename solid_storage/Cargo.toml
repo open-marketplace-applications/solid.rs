@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 zbox = { version = "0.9.1", features = ["libsodium-bundled", "storage-file"] }
+anyhow = "^1.0.33"

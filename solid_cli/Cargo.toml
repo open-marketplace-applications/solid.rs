@@ -10,5 +10,6 @@ path = "src/main.rs"
 
 [dependencies]
 clap = "2.33.3"
+anyhow = "^1.0.33"
 
 solid_server = { path = "../solid_server" }

@@ -1,14 +1,14 @@
 pub mod configuration;
 
 use std::net::SocketAddr;
-
 use actix_web::{middleware, web, App, HttpRequest, HttpServer, HttpResponse, delete, get, head, options, patch, post, put};
+use anyhow::Result;
 
 use solid_storage;
 use crate::configuration::Configuration;
 
 #[actix_web::main]
-pub async fn start_server(configuration: Configuration) -> std::io::Result<()> {
+pub async fn start_server(configuration: Configuration) -> Result<()> {
     let addr = SocketAddr::new(configuration.server.bind_address, configuration.server.port);
 
     println!("Runnning Solid Server on http://{}", addr);
@@ -29,9 +29,11 @@ pub async fn start_server(configuration: Configuration) -> std::io::Result<()> {
             .service(handle_post)
             .service(handle_put)
     })
-        .bind(&addr)?
-        .run()
-        .await
+    .bind(&addr)?
+    .run()
+    .await?;
+
+    Ok(())
 }
 
 #[get("/")]

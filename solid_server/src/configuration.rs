@@ -1,5 +1,6 @@
 use std::net::{IpAddr, Ipv4Addr};
 use serde::{Serialize, Deserialize};
+use anyhow::Result;
 
 const DEFAULT_BIND_ADDRESS: Ipv4Addr = Ipv4Addr::new(127, 0, 0, 1);
 const DEFAULT_PORT: u16 = 8080;
@@ -35,12 +36,12 @@ impl Configuration {
         }
     }
 
-    pub fn from_yaml(yaml_string: String) -> Result<Self, serde_yaml::Error> {
-        serde_yaml::from_str(&yaml_string)
+    pub fn from_yaml(yaml_string: String) -> Result<Self> {
+        Ok(serde_yaml::from_str(&yaml_string)?)
     }
 
-    pub fn to_yaml(&self) -> Result<String, serde_yaml::Error> {
-        serde_yaml::to_string(self)
+    pub fn to_yaml(&self) -> Result<String> {
+        Ok(serde_yaml::to_string(self)?)
     }
 }
 

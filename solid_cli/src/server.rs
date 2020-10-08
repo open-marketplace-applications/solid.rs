@@ -1,18 +1,16 @@
 use clap::ArgMatches;
 
 use solid_server::{start_server, configuration::Configuration};
+use anyhow::Result;
 
-pub fn start(optional_matches: Option<&ArgMatches>) {
+pub fn start(optional_matches: Option<&ArgMatches>) -> Result<()>{
     let mut configuration = load_server_configuration();
 
     if let Some(matches) = optional_matches {
         apply_cli_arguments(&mut configuration, matches);
     }
 
-    match start_server(configuration) {
-        Ok(_) => (),
-        Err(error) => println!("Error: {}", error)
-    }
+    Ok(start_server(configuration)?)
 }
 
 fn load_server_configuration() -> Configuration {
